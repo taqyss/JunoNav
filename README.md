@@ -41,7 +41,7 @@ Response Formatting & TTS
 
 Have a dialogue_manager node format the reply and call the standard sound_play package or a cloud TTS node (publishing on /tts/audio), which then plays back on the speaker.
 
-1.  ### Campus Shuttle Options Display
+2.  ### Campus Shuttle Options Display
 
 Shuttle Schedule Database\
 Store the routes, stops, and departure times in a JSON or CSV file under config/.
@@ -62,7 +62,7 @@ It will stop at UM Central, KK10, APIUM, KK11, and KK12.
 Fallback\
 If a destination is not recognized, publish a std_msgs/String message on /tts/text  though TTS prompting another destination.
 
-1.  ### Language Mode Switching
+3.  ### Language Mode Switching
 
 Language-Switch Intent Detection
 
@@ -100,7 +100,9 @@ If a user requests a language outside the supported set, language_manager_node s
 
 Then remain in the previous language mode.
 
+
 Storyboard
+==========
 
 ### Scene 1: Personalised Greeting & Library Hours Query
 
