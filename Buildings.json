@@ -1,0 +1,144 @@
+```json
+[
+  {
+    "building_id": "library",
+    "building_name": "University Library",
+    "opening_time": "08:00",
+    "closing_time": "22:00",
+    "location_description": "Next to Student Center"
+  },
+  {
+    "building_id": "visa",
+    "building_name": "Visa Unit",
+    "opening_time": "08:00",
+    "closing_time": "22:00",
+    "location_description": "In the main exam hall"
+  },
+  {
+    "building_id": "fsktm",
+    "building_name": "Faculty of Computer Science",
+    "opening_time": "07:00",
+    "closing_time": "23:00",
+    "location_description": "Next to KK10"
+  },
+  {
+    "building_id": "kk12",
+    "building_name": "KK12 (Raja Dr Nazrin Shah RC)",
+    "opening_time": "07:12",
+    "closing_time": "21:00",
+    "location_description": "Residential College shuttle stop (served by routes BA, AB)"
+  },
+  {
+    "building_id": "dtc",
+    "building_name": "DTC",
+    "opening_time": "09:00",
+    "closing_time": "19:00",
+    "location_description": "Next to library"
+  },
+  {
+    "building_id": "um_central",
+    "building_name": "UM Central Bus Hub",
+    "opening_time": "",
+    "closing_time": "",
+    "location_description": "Main shuttle boarding point (served by routes AB, BA, E, 13)"
+  },
+  {
+    "building_id": "kk13",
+    "building_name": "KK13 (Kolej Kediaman 13)",
+    "opening_time": "",
+    "closing_time": "",
+    "location_description": "Residential College shuttle stop (served by route 13)"
+  },
+  {
+    "building_id": "kk9",
+    "building_name": "KK9 (Tun Syed Zahiruddin RC)",
+    "opening_time": "",
+    "closing_time": "",
+    "location_description": "Residential College shuttle stop (served by route E)"
+  },
+  {
+    "building_id": "faculty_of_science",
+    "building_name": "Faculty of Science",
+    "opening_time": "",
+    "closing_time": "",
+    "location_description": "Shuttle stop (served by routes BA, E)"
+  },
+  {
+    "building_id": "centre_foundation_science",
+    "building_name": "Centre for Foundation in Science",
+    "opening_time": "",
+    "closing_time": "",
+    "location_description": "Shuttle stop (served by route BA)"
+  },
+  {
+    "building_id": "kk5",
+    "building_name": "KK5 (Dayasari RC)",
+    "opening_time": "",
+    "closing_time": "",
+    "location_description": "Residential College shuttle stop (served by route BA)"
+  },
+  {
+    "building_id": "academy_of_islamic_studies",
+    "building_name": "Academy of Islamic Studies (API)",
+    "opening_time": "",
+    "closing_time": "",
+    "location_description": "Shuttle stop (served by routes BA, AB)"
+  },
+  {
+    "building_id": "kk10",
+    "building_name": "KK10 (Tun Ahmad Zaidi RC)",
+    "opening_time": "",
+    "closing_time": "",
+    "location_description": "Residential College shuttle stop (served by routes BA, AB)"
+  },
+  {
+    "building_id": "academy_of_malay_studies",
+    "building_name": "Academy of Malay Studies",
+    "opening_time": "",
+    "closing_time": "",
+    "location_description": "Shuttle stop (served by route BA)"
+  },
+  {
+    "building_id": "kk3",
+    "building_name": "KK3 (Kurshiah RC)",
+    "opening_time": "",
+    "closing_time": "",
+    "location_description": "Residential College shuttle stop (served by route BA)"
+  },
+  {
+    "building_id": "kk4",
+    "building_name": "KK4 (Bestari RC)",
+    "opening_time": "",
+    "closing_time": "",
+    "location_description": "Residential College shuttle stop (served by route BA)"
+  },
+  {
+    "building_id": "kk7",
+    "building_name": "KK7 (Za’ba RC)",
+    "opening_time": "",
+    "closing_time": "",
+    "location_description": "Residential College shuttle stop (served by route AB)"
+  },
+  {
+    "building_id": "kk11",
+    "building_name": "KK11 (Ungku Aziz RC)",
+    "opening_time": "",
+    "closing_time": "",
+    "location_description": "Residential College shuttle stop (served by route AB)"
+  },
+  {
+    "building_id": "kk1",
+    "building_name": "KK1 (Tunku Abdul Rahman RC)",
+    "opening_time": "",
+    "closing_time": "",
+    "location_description": "Residential College shuttle stop (served by route AB)"
+  },
+  {
+    "building_id": "faculty_of_engineering",
+    "building_name": "Faculty of Engineering",
+    "opening_time": "",
+    "closing_time": "",
+    "location_description": "Academic building shuttle stop (served by route AB)"
+  }
+]
+```
