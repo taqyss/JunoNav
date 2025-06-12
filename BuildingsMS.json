@@ -1,0 +1,142 @@
+[
+  {
+    "building_id": "library",
+    "building_name": "Perpustakaan Universiti",
+    "opening_time": "08:00",
+    "closing_time": "22:00",
+    "location_description": "Berhampiran Pusat Pelajar"
+  },
+  {
+    "building_id": "visa",
+    "building_name": "Unit Visa",
+    "opening_time": "08:00",
+    "closing_time": "22:00",
+    "location_description": "Di dalam dewan peperiksaan utama"
+  },
+  {
+    "building_id": "fsktm",
+    "building_name": "Fakulti Sains Komputer",
+    "opening_time": "07:00",
+    "closing_time": "23:00",
+    "location_description": "Berhampiran KK10"
+  },
+  {
+    "building_id": "kk12",
+    "building_name": "KK12 (Kolej Kediaman Raja Dr Nazrin Shah)",
+    "opening_time": "07:12",
+    "closing_time": "21:00",
+    "location_description": "Perhentian bas kolej kediaman (dilalui oleh laluan BA, AB)"
+  },
+  {
+    "building_id": "dtc",
+    "building_name": "DTC",
+    "opening_time": "09:00",
+    "closing_time": "19:00",
+    "location_description": "Berhampiran perpustakaan"
+  },
+  {
+    "building_id": "um_central",
+    "building_name": "Hab Bas Pusat UM",
+    "opening_time": "",
+    "closing_time": "",
+    "location_description": "Titik naik bas utama (dilalui oleh laluan AB, BA, E, 13)"
+  },
+  {
+    "building_id": "kk13",
+    "building_name": "KK13 (Kolej Kediaman 13)",
+    "opening_time": "",
+    "closing_time": "",
+    "location_description": "Perhentian bas kolej kediaman (dilalui oleh laluan 13)"
+  },
+  {
+    "building_id": "kk9",
+    "building_name": "KK9 (Kolej Kediaman Tun Syed Zahiruddin)",
+    "opening_time": "",
+    "closing_time": "",
+    "location_description": "Perhentian bas kolej kediaman (dilalui oleh laluan E)"
+  },
+  {
+    "building_id": "faculty_of_science",
+    "building_name": "Fakulti Sains",
+    "opening_time": "",
+    "closing_time": "",
+    "location_description": "Perhentian bas (dilalui oleh laluan BA, E)"
+  },
+  {
+    "building_id": "centre_foundation_science",
+    "building_name": "Pusat Asasi Sains",
+    "opening_time": "",
+    "closing_time": "",
+    "location_description": "Perhentian bas (dilalui oleh laluan BA)"
+  },
+  {
+    "building_id": "kk5",
+    "building_name": "KK5 (Kolej Kediaman Dayasari)",
+    "opening_time": "",
+    "closing_time": "",
+    "location_description": "Perhentian bas kolej kediaman (dilalui oleh laluan BA)"
+  },
+  {
+    "building_id": "academy_of_islamic_studies",
+    "building_name": "Akademi Pengajian Islam (API)",
+    "opening_time": "",
+    "closing_time": "",
+    "location_description": "Perhentian bas (dilalui oleh laluan BA, AB)"
+  },
+  {
+    "building_id": "kk10",
+    "building_name": "KK10 (Kolej Kediaman Tun Ahmad Zaidi)",
+    "opening_time": "",
+    "closing_time": "",
+    "location_description": "Perhentian bas kolej kediaman (dilalui oleh laluan BA, AB)"
+  },
+  {
+    "building_id": "academy_of_malay_studies",
+    "building_name": "Akademi Pengajian Melayu",
+    "opening_time": "",
+    "closing_time": "",
+    "location_description": "Perhentian bas (dilalui oleh laluan BA)"
+  },
+  {
+    "building_id": "kk3",
+    "building_name": "KK3 (Kolej Kediaman Kurshiah)",
+    "opening_time": "",
+    "closing_time": "",
+    "location_description": "Perhentian bas kolej kediaman (dilalui oleh laluan BA)"
+  },
+  {
+    "building_id": "kk4",
+    "building_name": "KK4 (Kolej Kediaman Bestari)",
+    "opening_time": "",
+    "closing_time": "",
+    "location_description": "Perhentian bas kolej kediaman (dilalui oleh laluan BA)"
+  },
+  {
+    "building_id": "kk7",
+    "building_name": "KK7 (Kolej Kediaman Za'ba)",
+    "opening_time": "",
+    "closing_time": "",
+    "location_description": "Perhentian bas kolej kediaman (dilalui oleh laluan AB)"
+  },
+  {
+    "building_id": "kk11",
+    "building_name": "KK11 (Kolej Kediaman Ungku Aziz)",
+    "opening_time": "",
+    "closing_time": "",
+    "location_description": "Perhentian bas kolej kediaman (dilalui oleh laluan AB)"
+  },
+  {
+    "building_id": "kk1",
+    "building_name": "KK1 (Kolej Kediaman Tunku Abdul Rahman)",
+    "opening_time": "",
+    "closing_time": "",
+    "location_description": "Perhentian bas kolej kediaman (dilalui oleh laluan AB)"
+  },
+  {
+    "building_id": "faculty_of_engineering",
+    "building_name": "Fakulti Kejuruteraan",
+    "opening_time": "",
+    "closing_time": "",
+    "location_description": "Perhentian bas bangunan akademik (dilalui oleh laluan AB)"
+  }
+]

@@ -1,0 +1,48 @@
+[
+  {
+    "route_id": "13",
+    "route_name": "KK13 ↔ Pusat UM (Laluan 13)",
+    "stops": [
+      "kolej_kediaman_kk13",
+      "um_central"
+    ]
+  },
+  {
+    "route_id": "E",
+    "route_name": "Pusat UM → Fakulti Sains (Laluan E)",
+    "stops": [
+      "um_central",
+      "tun_syed_zahiruddin_rc",
+      "faculty_of_science"
+    ]
+  },
+  {
+    "route_id": "BA",
+    "route_name": "Pusat UM → Pusingan Asasi Sains (Laluan BA)",
+    "stops": [
+      "um_central",
+      "centre_foundation_science",
+      "dayasari_rc",
+      "academy_of_islamic_studies",
+      "tun_ahmad_zaidi_rc",
+      "academy_of_malay_studies",
+      "kurshiah_bestari_zaba_rc",
+      "faculty_of_science"
+    ]
+  },
+  {
+    "route_id": "AB",
+    "route_name": "Pusat UM → Pusingan Kejuruteraan (Laluan AB)",
+    "stops": [
+      "um_central",
+      "zaba_rc",
+      "tun_ahmad_zaidi_rc",
+      "academy_of_islamic_studies",
+      "ungku_aziz_rc",
+      "raja_dr_nazrin_shah_rc",
+      "tunku_abdul_rahman_rc",
+      "faculty_of_engineering",
+      "um_central"
+    ]
+  }
+]
