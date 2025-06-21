@@ -7,6 +7,14 @@ import re
 from pathlib import Path
 from datetime import datetime, time
 
+# optional Malay speech library
+try:
+    import malaya_speech
+    from malaya_speech import tts as malaya_tts
+    MALAYA_AVAILABLE = True
+except Exception:
+    MALAYA_AVAILABLE = False
+
 #global language setting
 #english is EN, malay is MS
 language = "EN"
@@ -229,6 +237,34 @@ def get_next_bus_time(current_time=None):
         return f"Bas seterusnya akan berlepas pada {dep}."
     return f"The next bus is leaving at {dep}."
 
+
+def malay_tts_response(text, path="malay_reply.wav"):
+    """Use malaya-speech TTS if available to generate Malay audio."""
+    if not MALAYA_AVAILABLE:
+        return None
+
+    global malaya_tts_model
+    try:
+        malaya_tts_model
+    except NameError:
+        malaya_tts_model = None
+
+    if malaya_tts_model is None:
+        try:
+            malaya_tts_model = malaya_tts.lightspeech(model="haqkiem", quantized=True)
+        except Exception:
+            malaya_tts_model = False
+
+    if not malaya_tts_model:
+        return None
+
+    try:
+        wav = malaya_tts_model.predict(text)
+        malaya_speech.save_wav(wav, path)
+        return path
+    except Exception:
+        return None
+
 def handle_query(englishQuery,bahasaQuery):
     #lower case both query
     englishQuery = englishQuery.lower()
@@ -315,7 +351,11 @@ def english_sr_callback(msg):
     if language == "EN":
         gtts_pub.publish(result)
     else:
-        malay_gtts_pub.publish(result)
+        audio = malay_tts_response(result)
+        if audio:
+            malay_gtts_pub.publish(f"[audio saved at {audio}]")
+        else:
+            malay_gtts_pub.publish(result)
 
 def malay_sr_callback(msg):
     global language
@@ -378,7 +418,11 @@ if __name__ == "__main__":
             if language == "EN":
                 gtts_pub.publish(result)
             else:
-                malay_gtts_pub.publish(result)
+                audio = malay_tts_response(result)
+                if audio:
+                    malay_gtts_pub.publish(f"[audio saved at {audio}]")
+                else:
+                    malay_gtts_pub.publish(result)
 
         except Exception as e:
             print(f"Error processing query: {e}")
