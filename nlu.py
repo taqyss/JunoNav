@@ -1,8 +1,8 @@
+import rospy
+from std_msgs.msg import String
 import json
 import re
 from pathlib import Path
-
-from sympy import false
 
 #global language setting
 #english is EN, malay is MS
@@ -252,23 +252,58 @@ def language_switching_detection(englishQuery,bahasaQuery):
     return False
 
 # This part will be completely replaced by ROS sub.
+def english_sr_callback(msg):
+    global language
+    english_query = msg.data
+    # Get corresponding Malay query (you might need to modify this logic)
+    malay_query = ""  # You'll need to get this from somewhere
+
+    result = handle_query(english_query, malay_query)
+
+    if language == "EN":
+        gtts_pub.publish(result)
+    else:
+        malay_gtts_pub.publish(result)
+
+def malay_sr_callback(msg):
+    global language
+    malay_query = msg.data
+    # Get corresponding English query (you might need to modify this logic)
+    english_query = ""  # You'll need to get this from somewhere
+
+    result = handle_query(english_query, malay_query)
+
+    if language == "EN":
+        gtts_pub.publish(result)
+    else:
+        malay_gtts_pub.publish(result)
+
+def get_user_input():
+    """Helper function to get user input with language switching support"""
+    print("\nEnter your query (format: 'English query/Malay query') or 'exit' to quit:")
+    print("\nYou must enter the key word (juno) otherwise it will ignore you")
+    print("\nYou can't use exact same sentence continuously as it will assume it is getting the duplicate message from the topic ")
+    user_input = input().strip()
+    if user_input.lower() == 'exit':
+        return None
+    return user_input
+
 if __name__ == "__main__":
-    import sys
+    rospy.init_node('nlu_processor')
 
-    def get_user_input():
-        """Helper function to get user input with language switching support"""
-        print("\nEnter your query (format: 'English query/Malay query') or 'exit' to quit:")
-        print("\nYou must enter the key word (juno) otherwise it will ignore you")
-        print("\nYou can't use exact same sentence continuously as it will assume it is getting the duplicate message from the topic ")
-        user_input = input().strip()
-        if user_input.lower() == 'exit':
-            return None
-        return user_input
+    # Publishers
+    gtts_pub = rospy.Publisher('gtts_input', String, queue_size=10)
+    malay_gtts_pub = rospy.Publisher('malay_gtts_input', String, queue_size=10)
 
-    print("NLU System started. Enter queries in format: 'English query/Malay query'")
+    # Subscribers
+    rospy.Subscriber('google_sr', String, english_sr_callback)
+    rospy.Subscriber('malay_sr', String, malay_sr_callback)
 
-    while True:
-        # Get user input
+    print("NLU System started. Waiting for ROS messages or console input...")
+
+    # Keep both ROS and console input working
+    while not rospy.is_shutdown():
+        # Get user input from console (optional)
         query = get_user_input()
         if query is None:
             print("Exiting...")
@@ -278,16 +313,23 @@ if __name__ == "__main__":
             # Split the input into English and Malay parts
             parts = query.split('/', 1)
             if len(parts) == 1:
-                # If only one part provided, use it for both languages
-                englishQuery = parts[0]
-                bahasaQuery = parts[0]
+                english_query = parts[0]
+                malay_query = parts[0]
             else:
-                englishQuery, bahasaQuery = parts
+                english_query, malay_query = parts
 
             # Process and display the result
-            result = handle_query(englishQuery.strip(), bahasaQuery.strip())
+            result = handle_query(english_query.strip(), malay_query.strip())
             print(f"\nResult: {result}")
+
+            # Also publish to appropriate topic
+            if language == "EN":
+                gtts_pub.publish(result)
+            else:
+                malay_gtts_pub.publish(result)
 
         except Exception as e:
             print(f"Error processing query: {e}")
             print("Please use format: 'English query/Malay query'")
+
+    rospy.spin()
