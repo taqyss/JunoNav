@@ -5,6 +5,7 @@ from std_msgs.msg import String
 import json
 import re
 from pathlib import Path
+from datetime import datetime, time
 
 #global language setting
 #english is EN, malay is MS
@@ -65,6 +66,9 @@ def classify_intent(text, buildings, bus_routes, aliases):
             "intent": "opening_hours",
             "building_id": building["building_id"],
         }
+
+    if any(phrase in t for phrase in ["next bus", "next shuttle", "bus schedule", "jadual bas", "bas seterusnya"]):
+        return {"intent": "next_bus"}
 
     if any(w in t for w in ["shuttle", "bus", "route","perjalanan ulang-alik", "bas", "laluan"]):
         if building:
@@ -183,6 +187,48 @@ def get_shuttle_info(res, buildings, bus_routes, aliases):
                 return "Route not found.", None
         return "Not enough info for shuttle.", None
 
+
+def get_next_bus_time(current_time=None):
+    """Return message for next bus based on current_time."""
+    if current_time is None:
+        now = datetime.now().time()
+    else:
+        now = current_time
+
+    start_service = time(7, 30)
+    end_service = time(22, 0)
+
+    # if outside service hours
+    if now >= end_service or now < start_service:
+        if language == "MS":
+            return (
+                "Tiada bas dalam jadual sekarang. Bas seterusnya bertolak pada 7.30 AM."
+            )
+        return (
+            "There is no current bus on schedule. The next scheduled bus is leaving at 7.30 AM."
+        )
+
+    minutes = now.hour * 60 + now.minute
+    next_minutes = ((minutes // 30) + 1) * 30
+
+    # if next departure is outside service time
+    if next_minutes >= end_service.hour * 60 + end_service.minute:
+        if language == "MS":
+            return (
+                "Tiada bas dalam jadual sekarang. Bas seterusnya bertolak pada 7.30 AM."
+            )
+        return (
+            "There is no current bus on schedule. The next scheduled bus is leaving at 7.30 AM."
+        )
+
+    next_hour = next_minutes // 60
+    next_min = next_minutes % 60
+    dep = f"{next_hour:02d}:{next_min:02d}"
+
+    if language == "MS":
+        return f"Bas seterusnya akan berlepas pada {dep}."
+    return f"The next bus is leaving at {dep}."
+
 def handle_query(englishQuery,bahasaQuery):
     #lower case both query
     englishQuery = englishQuery.lower()
@@ -229,6 +275,8 @@ def handle_query(englishQuery,bahasaQuery):
             b for b in buildings if b["building_id"] == res["building_id"]
         )
         return get_building_hours(b)
+    if res["intent"] == "next_bus":
+        return get_next_bus_time()
     if res["intent"] == "shuttle_schedule":
         reply, _ = get_shuttle_info(res, buildings, bus_routes, aliases)
         return reply
