@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import rospy
 from std_msgs.msg import String
 import json
@@ -237,7 +239,9 @@ def handle_query(englishQuery,bahasaQuery):
 
 #check juno in sentence or not
 def wake_word_detection(text):
-    return "juno" in text.lower()
+    text_lower = text.lower()
+    wake_words = ("juno", "do you")
+    return any(wake in text_lower for wake in wake_words)
 
 #don't handle the case both English and Malay is used, but assume user usually don't do that
 def language_switching_detection(englishQuery,bahasaQuery):
