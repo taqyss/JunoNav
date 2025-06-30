@@ -328,7 +328,7 @@ def start_processing_timer_if_needed():
 
     # Start a new timer (0.3s delay)
     processing_timer_active = True
-    processing_timer = rospy.Timer(rospy.Duration(0.3), process_queries, oneshot=True)
+    processing_timer = rospy.Timer(rospy.Duration(1.0), process_queries, oneshot=True)
 
 def process_queries(event=None):
     global latest_english_query, latest_malay_query, processing_timer_active, process_lock
