@@ -66,7 +66,7 @@ def find_building(text, aliases):
 def classify_intent(text, buildings, bus_routes, aliases):
     t = text.lower()
     building = find_building(text, aliases)
-    if building and any(w in t for w in ["open", "close", "hour","buka", "tutup", "jam"]):
+    if building and any(w in t for w in ["open", "close", "hour","buka", "tutup", "pukul"]):
         return {
             "intent": "opening_hours",
             "building_id": building["building_id"],
