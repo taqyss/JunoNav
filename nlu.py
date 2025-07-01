@@ -13,6 +13,11 @@ from datetime import datetime, time
 language = "EN"
 lastEnglishQuery = "" #prevent processing the same message, for idempotence
 lastBahasaQuery = "" #prevent processing the same message, for idempotence
+latest_english_query = ""
+latest_malay_query = ""
+processing_timer = None
+processing_timer_active = False
+process_lock = threading.Lock()
 
 #load Json into Python dictionary
 def load_json_strip(path: str):
@@ -196,7 +201,7 @@ def get_next_bus_time(current_time=None):
         now = current_time
 
     start_service = time(7, 30)
-    end_service = time(22, 0)
+    end_service   = time(22, 0)
 
     # if outside service hours
     if now >= end_service or now < start_service:
@@ -208,7 +213,7 @@ def get_next_bus_time(current_time=None):
             "There is no current bus on schedule. The next scheduled bus is leaving at 7.30 AM."
         )
 
-    minutes = now.hour * 60 + now.minute
+    minutes      = now.hour * 60 + now.minute
     next_minutes = ((minutes // 30) + 1) * 30
 
     # if next departure is outside service time
@@ -221,13 +226,23 @@ def get_next_bus_time(current_time=None):
             "There is no current bus on schedule. The next scheduled bus is leaving at 7.30 AM."
         )
 
+    # compute next departure hour/minute
     next_hour = next_minutes // 60
-    next_min = next_minutes % 60
-    dep = f"{next_hour:02d}:{next_min:02d}"
+    next_min  = next_minutes % 60
+
+    # ── NEW: format in 12-hour with AM/PM ─────────────────────────────
+    period = "AM" if next_hour < 12 else "PM"
+    hour12 = next_hour % 12 or 12
+
+    if next_min == 0:
+        dep = f"{hour12} {period}"
+    else:
+        dep = f"{hour12}:{next_min:02d} {period}"
 
     if language == "MS":
         return f"Bas seterusnya akan berlepas pada {dep}."
     return f"The next bus is leaving at {dep}."
+
 
 def handle_query(englishQuery,bahasaQuery):
     #lower case both query
@@ -288,7 +303,7 @@ def handle_query(englishQuery,bahasaQuery):
 #check juno in sentence or not
 def wake_word_detection(text):
     text_lower = text.lower()
-    wake_words = ("juno", "do you")
+    wake_words = ("juno", "do you", "juna", "juneau")
     return any(wake in text_lower for wake in wake_words)
 
 #don't handle the case both English and Malay is used, but assume user usually don't do that
@@ -305,24 +320,50 @@ def language_switching_detection(englishQuery,bahasaQuery):
 
 # This part will be completely replaced by ROS sub.
 def english_sr_callback(msg):
-    global language
-    if language == "EN":
-        english_query = msg.data
-        # Get corresponding Malay query (you might need to modify this logic)
-        malay_query = ""  # You'll need to get this from somewhere
-
-        result = handle_query(english_query, malay_query)
-        gtts_pub.publish(result)
+    global latest_english_query
+    latest_english_query = msg.data
+    start_processing_timer_if_needed()
 
 def malay_sr_callback(msg):
-    global language
-    if language=="MS":
-        malay_query = msg.data
-        # Get corresponding English query (you might need to modify this logic)
-        english_query = ""  # You'll need to get this from somewhere
+    global latest_malay_query
+    latest_malay_query = msg.data
+    start_processing_timer_if_needed()
 
-        result = handle_query(english_query, malay_query)
-        malay_gtts_pub.publish(result)
+def start_processing_timer_if_needed():
+    global processing_timer, processing_timer_active
+
+    # If timer is already running, do nothing (let it expire naturally)
+    if processing_timer_active:
+        return
+
+    # Start a new timer (0.3s delay)
+    processing_timer_active = True
+    processing_timer = rospy.Timer(rospy.Duration(1.0), process_queries, oneshot=True)
+
+def process_queries(event=None):
+    global latest_english_query, latest_malay_query, processing_timer_active, process_lock
+
+    # Mark timer as inactive
+    processing_timer_active = False
+
+    # Acquire lock to prevent race conditions
+    with process_lock:
+        # Only proceed if at least one query exists
+        if not (latest_english_query or latest_malay_query):
+            return
+
+        result = handle_query(latest_english_query, latest_malay_query)
+
+        # Publish based on selected language
+        if language == "EN":
+            gtts_pub.publish(result)
+        else:
+            malay_gtts_pub.publish(result)
+
+        #Clear queries after processing
+        latest_english_query = ""
+        latest_malay_query = ""
+
 
 def get_user_input():
     """Helper function to get user input with language switching support"""
