@@ -13,11 +13,6 @@ from datetime import datetime, time
 language = "EN"
 lastEnglishQuery = "" #prevent processing the same message, for idempotence
 lastBahasaQuery = "" #prevent processing the same message, for idempotence
-latest_english_query = ""
-latest_malay_query = ""
-processing_timer = None
-processing_timer_active = False
-process_lock = threading.Lock()
 
 #load Json into Python dictionary
 def load_json_strip(path: str):
@@ -310,50 +305,24 @@ def language_switching_detection(englishQuery,bahasaQuery):
 
 # This part will be completely replaced by ROS sub.
 def english_sr_callback(msg):
-    global latest_english_query
-    latest_english_query = msg.data
-    start_processing_timer_if_needed()
+    global language
+    if language == "EN":
+        english_query = msg.data
+        # Get corresponding Malay query (you might need to modify this logic)
+        malay_query = ""  # You'll need to get this from somewhere
+
+        result = handle_query(english_query, malay_query)
+        gtts_pub.publish(result)
 
 def malay_sr_callback(msg):
-    global latest_malay_query
-    latest_malay_query = msg.data
-    start_processing_timer_if_needed()
+    global language
+    if language=="MS":
+        malay_query = msg.data
+        # Get corresponding English query (you might need to modify this logic)
+        english_query = ""  # You'll need to get this from somewhere
 
-def start_processing_timer_if_needed():
-    global processing_timer, processing_timer_active
-
-    # If timer is already running, do nothing (let it expire naturally)
-    if processing_timer_active:
-        return
-
-    # Start a new timer (0.3s delay)
-    processing_timer_active = True
-    processing_timer = rospy.Timer(rospy.Duration(1.0), process_queries, oneshot=True)
-
-def process_queries(event=None):
-    global latest_english_query, latest_malay_query, processing_timer_active, process_lock
-
-    # Mark timer as inactive
-    processing_timer_active = False
-
-    # Acquire lock to prevent race conditions
-    with process_lock:
-        # Only proceed if at least one query exists
-        if not (latest_english_query or latest_malay_query):
-            return
-
-        result = handle_query(latest_english_query, latest_malay_query)
-
-        # Publish based on selected language
-        if language == "EN":
-            gtts_pub.publish(result)
-        else:
-            malay_gtts_pub.publish(result)
-
-        #Clear queries after processing
-        latest_english_query = ""
-        latest_malay_query = ""
-
+        result = handle_query(english_query, malay_query)
+        malay_gtts_pub.publish(result)
 
 def get_user_input():
     """Helper function to get user input with language switching support"""
